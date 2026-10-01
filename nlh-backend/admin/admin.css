@@ -1,0 +1,264 @@
+* { box-sizing: border-box; }
+body { font-family: 'Jost', Arial, sans-serif; background:#0d0d0d; color:#f2f2f2; margin:0; }
+a { color:#d4af37; }
+
+.admin-login-body { display:flex; align-items:center; justify-content:center; min-height:100vh; padding:20px; }
+.admin-login-box { background:#161616; padding:32px 24px; border-radius:14px; width:100%; max-width:340px; border:1px solid #333; }
+.admin-login-box h1 { font-size:1.3rem; margin-bottom:20px; }
+.admin-login-box input { width:100%; padding:14px; margin-bottom:14px; border-radius:8px; border:1px solid #444; background:#111; color:#fff; font-size:16px; } /* 16px prevents iOS auto-zoom on focus */
+.admin-login-box button { width:100%; padding:14px; background:#d4af37; border:none; border-radius:8px; font-weight:600; cursor:pointer; font-size:1rem; }
+.admin-error { color:#e74c3c; margin-bottom:10px; }
+
+/* ==========================================================
+   TOP NAV — stacks and becomes a horizontally-scrollable pill
+   row on phones, full row on tablet/desktop
+   ========================================================== */
+.admin-topbar {
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  padding:14px 16px;
+  background:#161616;
+  border-bottom:1px solid #333;
+}
+.admin-topbar strong { font-size:1rem; white-space:nowrap; }
+.admin-topbar .nav {
+  display:flex;
+  gap:4px;
+  overflow-x:auto;
+  -webkit-overflow-scrolling:touch;
+  width:100%;
+  padding-bottom:2px;
+  scrollbar-width: thin;
+}
+.admin-topbar .nav a {
+  flex:0 0 auto;
+  text-decoration:none;
+  color:#ccc;
+  padding:10px 14px;
+  border-radius:8px;
+  white-space:nowrap;
+  font-size:.9rem;
+}
+.admin-topbar .nav a.active { color:#0d0d0d; background:#d4af37; font-weight:600; }
+.admin-topbar .nav a:not(.active):active { background:#232323; }
+
+.admin-main { padding:16px; max-width:1200px; margin:0 auto; }
+
+.card { background:#161616; border:1px solid #333; border-radius:12px; padding:16px; margin-bottom:16px; }
+.card h3 { margin-top:0; }
+
+/* ==========================================================
+   TABLES — horizontal scroll on narrow screens instead of
+   squeezing columns unreadably small
+   ========================================================== */
+.table-scroll { width:100%; overflow-x:auto; -webkit-overflow-scrolling:touch; }
+table { width:100%; border-collapse:collapse; min-width:640px; }
+th, td { text-align:left; padding:10px 8px; border-bottom:1px solid #2a2a2a; font-size:.9rem; vertical-align:top; }
+th { color:#999; font-weight:500; }
+
+.pill { display:inline-block; padding:3px 10px; border-radius:20px; font-size:.75rem; }
+.st-pending { background:rgba(241,196,15,.2); color:#f1c40f; }
+.st-confirmed { background:rgba(46,204,113,.2); color:#2ecc71; }
+.st-alternate_offered { background:rgba(52,152,219,.2); color:#3498db; }
+.st-rejected, .st-cancelled { background:rgba(231,76,60,.2); color:#e74c3c; }
+.st-completed { background:rgba(155,89,182,.2); color:#9b59b6; }
+
+/* ==========================================================
+   BUTTONS — real touch targets on phone (44px is the
+   Apple/Google minimum comfortable tap size)
+   ========================================================== */
+.btn-sm {
+  display:inline-block;
+  padding:10px 14px;
+  min-height:40px;
+  border-radius:6px;
+  border:none;
+  cursor:pointer;
+  font-size:.85rem;
+  margin:3px 4px 3px 0;
+  text-decoration:none;
+}
+.btn-confirm { background:#2ecc71; color:#111; }
+.btn-reject { background:#e74c3c; color:#fff; }
+.btn-alt { background:#3498db; color:#fff; }
+.btn-link { background:#d4af37; color:#111; }
+
+.notes-box { background:#111; border:1px solid #333; border-radius:8px; padding:10px; font-size:.85rem; margin-top:6px; }
+
+/* ==========================================================
+   ADMIN "ALL DAY" WEEK CALENDAR
+   Desktop/tablet: 8-column grid (time + 7 days), same as before.
+   Phone: shows one day at a time via the .day-N class the PHP
+   sets on the container — see the single-day override below.
+   ========================================================== */
+.calendar-grid { display:grid; grid-template-columns: 80px repeat(7, 1fr); gap:1px; background:#2a2a2a; }
+.calendar-grid .cell { background:#161616; padding:6px; min-height:70px; font-size:.75rem; }
+.calendar-grid .head { background:#111; font-weight:600; text-align:center; padding:10px 4px; }
+.calendar-booking { background:#232323; border-left:3px solid #d4af37; border-radius:4px; padding:6px 8px; margin-bottom:4px; cursor:pointer; }
+.calendar-booking.st-confirmed { border-left-color:#2ecc71; }
+.calendar-booking.st-pending { border-left-color:#f1c40f; }
+
+/* ==========================================================
+   STAFF TIME-SLOT CALENDAR (.cal-grid, from staff/calendar.php)
+   Same single-day-on-phone treatment as .calendar-grid above.
+   ========================================================== */
+.cal-grid { display:grid; grid-template-columns: 70px repeat(7, 1fr); border:1px solid #333; }
+.cal-cell { border:1px solid #2a2a2a; padding:4px; min-height:34px; font-size:.78rem; }
+.cal-head { background:#1a1a1a; font-weight:bold; text-align:center; padding:6px; }
+.cal-time { background:#151515; color:#999; text-align:right; padding-right:8px; }
+.cal-booked.st-pending { background:#3a2f00; }
+.cal-booked.st-confirmed { background:#12331f; }
+.cal-booked.st-alternate_offered { background:#2f2530; }
+.cal-booked.st-completed { background:#1a1a1a; color:#777; }
+.cal-free { background:#0d0d0d; }
+.cal-booking-actions { margin-top:4px; }
+.cal-booking-actions button {
+  font-size:.72rem;
+  padding:6px 9px;
+  min-height:30px;
+  border-radius:5px;
+  border:none;
+  background:#333;
+  color:#fff;
+}
+/* On touch devices (phone/tablet) there's no ":hover" — actions stay
+   visible always instead of only appearing on mouse hover. Desktop
+   keeps the hover-reveal behaviour below in the wide-screen block. */
+.cal-booking-actions { display:block; }
+
+/* Mobile day switcher — hidden on tablet/desktop, shown only <641px */
+/* ==========================================================
+   STACKED TABLES — on phones a 9-column bookings table is
+   unusable even with sideways scrolling. Tables marked
+   .stack-table collapse into one card per booking, each row
+   labelled from that cell's data-label attribute.
+   ========================================================== */
+@media (max-width: 760px) {
+  .table-scroll { overflow-x: visible; }
+  .stack-table { min-width: 0; width: 100%; }
+  .stack-table thead { display: none; }   /* labels come from data-label instead */
+  .stack-table tr {
+    display: block;
+    background: #111;
+    border: 1px solid #333;
+    border-radius: 10px;
+    padding: 6px 12px;
+    margin-bottom: 14px;
+  }
+  .stack-table td {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 14px;
+    border: none;
+    border-bottom: 1px solid #222;
+    padding: 9px 0;
+    font-size: .88rem;
+  }
+  .stack-table tr td:last-child { border-bottom: none; }
+  .stack-table td::before {
+    content: attr(data-label);
+    flex: 0 0 32%;
+    color: #999;
+    font-size: .72rem;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+    padding-top: 3px;
+  }
+  .stack-table td textarea { width: 100%; }
+  /* Empty-state row ("Nothing here right now.") gets no label column */
+  .stack-table td[colspan]::before { content: none; }
+  .stack-table td[colspan] { display: block; text-align: center; }
+}
+
+.mobile-day-nav { display:none; }
+
+@media (max-width: 640px) {
+  .mobile-day-nav {
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    margin-bottom:12px;
+  }
+  .mobile-day-nav a {
+    flex:1;
+    text-align:center;
+    padding:10px;
+    background:#232323;
+    border-radius:8px;
+    text-decoration:none;
+    color:#d4af37;
+    font-size:.85rem;
+  }
+  .mobile-day-nav span { color:#999; font-size:.85rem; white-space:nowrap; }
+
+  /* Collapse the 7-day grid down to just "label column + 1 active day"
+     — CSS Grid auto-placement naturally pairs each visible label with
+     its matching visible day cell once the other 6 are display:none,
+     so no markup restructuring is needed, just fewer visible columns. */
+  .calendar-grid, .cal-grid {
+    grid-template-columns: 60px 1fr;
+  }
+  .calendar-grid .cell[data-day], .calendar-grid .head[data-day],
+  .cal-grid .cal-cell[data-day] {
+    display:none;
+  }
+  .calendar-grid.day-0 .cell[data-day="0"], .calendar-grid.day-0 .head[data-day="0"],
+  .calendar-grid.day-1 .cell[data-day="1"], .calendar-grid.day-1 .head[data-day="1"],
+  .calendar-grid.day-2 .cell[data-day="2"], .calendar-grid.day-2 .head[data-day="2"],
+  .calendar-grid.day-3 .cell[data-day="3"], .calendar-grid.day-3 .head[data-day="3"],
+  .calendar-grid.day-4 .cell[data-day="4"], .calendar-grid.day-4 .head[data-day="4"],
+  .calendar-grid.day-5 .cell[data-day="5"], .calendar-grid.day-5 .head[data-day="5"],
+  .calendar-grid.day-6 .cell[data-day="6"], .calendar-grid.day-6 .head[data-day="6"],
+  .cal-grid.day-0 .cal-cell[data-day="0"],
+  .cal-grid.day-1 .cal-cell[data-day="1"],
+  .cal-grid.day-2 .cal-cell[data-day="2"],
+  .cal-grid.day-3 .cal-cell[data-day="3"],
+  .cal-grid.day-4 .cal-cell[data-day="4"],
+  .cal-grid.day-5 .cal-cell[data-day="5"],
+  .cal-grid.day-6 .cal-cell[data-day="6"] {
+    display:block;
+  }
+}
+
+@media (min-width: 641px) {
+  /* Desktop/tablet only: booking actions stay hidden until hovered,
+     since a mouse is available there. */
+  .cal-booking-actions { display:none; }
+  .cal-booked:hover .cal-booking-actions { display:block; }
+}
+
+/* ==========================================================
+   MODAL — full-width sheet on phone instead of a small floating box
+   ========================================================== */
+.modal-bg { display:none; position:fixed; inset:0; background:rgba(0,0,0,.7); align-items:center; justify-content:center; z-index:50; padding:16px; }
+.modal-bg.open { display:flex; }
+.modal { background:#161616; border:1px solid #333; border-radius:12px; padding:20px; max-width:480px; width:100%; max-height:90vh; overflow-y:auto; }
+.modal textarea, .modal input {
+  width:100%; padding:12px; margin:8px 0; border-radius:6px;
+  border:1px solid #444; background:#111; color:#fff; font-size:16px; /* 16px avoids iOS zoom-on-focus */
+}
+.modal button { min-height:44px; }
+
+/* ==========================================================
+   TABLET — a bit more breathing room than phone, still not
+   the full desktop max-width
+   ========================================================== */
+@media (min-width: 641px) and (max-width: 1024px) {
+  .admin-main { padding:24px; }
+  .admin-topbar { padding:16px 24px; }
+}
+
+/* ==========================================================
+   DESKTOP — restore generous spacing
+   ========================================================== */
+@media (min-width: 1025px) {
+  .admin-main { padding:28px; }
+  .admin-topbar { padding:16px 28px; flex-wrap:nowrap; }
+  .admin-topbar .nav { width:auto; overflow-x:visible; }
+  .admin-topbar .nav a { padding:6px 10px; }
+}

@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Gift Cards | Nataly Laser House</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+
+background:#070707;
+font-family:'Jost',sans-serif;
+color:white;
+}
+
+.container{
+
+max-width:1200px;
+margin:auto;
+padding:80px 25px;
+}
+
+.title{
+
+text-align:center;
+margin-bottom:70px;
+}
+
+.title h1{
+
+font-family:'Cormorant Garamond',serif;
+font-size:4rem;
+color:#d4af37;
+font-weight:600;
+}
+
+.title p{
+
+margin-top:15px;
+color:#b8b8b8;
+font-size:1.05rem;
+}
+
+.grid{
+
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:60px;
+align-items:start;
+}
+
+.voucher{
+
+position:relative;
+
+height:420px;
+
+border-radius:22px;
+
+overflow:hidden;
+
+background:
+linear-gradient(rgba(0,0,0,.35),rgba(0,0,0,.45)),
+url("images/gift-card.jpg") center/cover;
+
+box-shadow:0 25px 60px rgba(0,0,0,.55);
+
+transition:.4s;
+}
+
+.voucher:hover{
+
+transform:translateY(-10px);
+}
+
+.voucher::before{
+
+content:"";
+position:absolute;
+inset:0;
+border:2px solid rgba(212,175,55,.4);
+border-radius:22px;
+box-shadow:0 0 30px rgba(212,175,55,.2);
+}
+
+.overlay{
+
+position:absolute;
+inset:0;
+
+padding:45px;
+
+display:flex;
+flex-direction:column;
+justify-content:space-between;
+}
+
+.logo{
+
+text-align:right;
+font-size:1.4rem;
+color:#d4af37;
+}
+
+.gift{
+
+font-family:'Cormorant Garamond',serif;
+font-size:4rem;
+color:#e5c46a;
+line-height:1;
+}
+
+.lines{
+
+margin-top:30px;
+}
+
+.line{
+
+margin:22px 0;
+}
+
+.line label{
+
+display:block;
+font-size:.8rem;
+letter-spacing:.18em;
+color:#d4af37;
+margin-bottom:8px;
+}
+
+.bar{
+
+height:1px;
+background:#d4af37;
+opacity:.7;
+}
+
+.bottom{
+
+font-size:.9rem;
+text-align:center;
+color:#d9d9d9;
+}
+
+.form{
+
+background:#111;
+padding:45px;
+border-radius:20px;
+border:1px solid rgba(212,175,55,.25);
+}
+
+.form h2{
+
+font-family:'Cormorant Garamond',serif;
+font-size:2.4rem;
+color:#d4af37;
+margin-bottom:25px;
+}
+
+.field{
+
+margin-bottom:22px;
+}
+
+.field label{
+
+display:block;
+margin-bottom:8px;
+color:#d4af37;
+font-size:.9rem;
+}
+
+input,
+textarea,
+select{
+
+width:100%;
+
+padding:14px 16px;
+
+background:#181818;
+
+border:1px solid #333;
+
+color:white;
+
+font-family:'Jost';
+
+border-radius:10px;
+
+outline:none;
+
+transition:.3s;
+}
+
+input:focus,
+textarea:focus,
+select:focus{
+
+border-color:#d4af37;
+}
+
+textarea{
+
+height:120px;
+resize:none;
+}
+
+.amounts{
+
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:12px;
+margin-bottom:20px;
+}
+
+.amounts button{
+
+padding:14px;
+
+background:#181818;
+
+border:1px solid #444;
+
+color:white;
+
+cursor:pointer;
+
+border-radius:10px;
+
+transition:.3s;
+}
+
+.amounts button:hover{
+
+background:#d4af37;
+color:#111;
+border-color:#d4af37;
+}
+
+.purchase{
+
+width:100%;
+
+padding:18px;
+
+background:#d4af37;
+
+border:none;
+
+font-size:1rem;
+
+font-weight:600;
+
+cursor:pointer;
+
+border-radius:12px;
+
+transition:.35s;
+}
+
+.purchase:hover{
+
+background:#e7c866;
+
+transform:translateY(-2px);
+}
+
+.note{
+
+margin-top:20px;
+text-align:center;
+font-size:.85rem;
+color:#999;
+}
+
+@media(max-width:900px){
+
+.grid{
+
+grid-template-columns:1fr;
+}
+
+.title h1{
+
+font-size:3rem;
+}
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="title">
+
+<h1>Gift Cards</h1>
+
+<p>Give the gift of beauty, confidence and relaxation.</p>
+
+</div>
+
+<div class="grid">
+
+<div class="voucher">
+
+<div class="overlay">
+
+<div>
+
+<div class="gift">Gift<br>Voucher</div>
+
+</div>
+
+<div class="lines">
+
+<div class="line">
+<label>TO</label>
+<div class="bar"></div>
+</div>
+
+<div class="line">
+<label>FROM</label>
+<div class="bar"></div>
+</div>
+
+<div class="line">
+<label>AMOUNT</label>
+<div class="bar"></div>
+</div>
+
+</div>
+
+<div class="bottom">
+
+Valid for Laser Hair Removal, Massage & Spa Treatments
+
+</div>
+
+</div>
+
+</div>
+
+<div class="form">
+
+<h2>Purchase Gift Card</h2>
+
+<form>
+
+<div class="field">
+
+<label>Recipient Name</label>
+
+<input type="text" id="gcTo" placeholder="Recipient name">
+
+</div>
+
+<div class="field">
+
+<label>Your Name</label>
+
+<input type="text" id="gcFrom" placeholder="Your name">
+
+</div>
+
+<div class="field">
+
+<label>Select Amount</label>
+
+<div class="amounts">
+
+<button type="button">€50</button>
+
+<button type="button">€100</button>
+
+<button type="button">€150</button>
+
+<button type="button" data-amount="custom">Custom</button>
+
+</div>
+
+<input type="number" placeholder="Custom amount (optional)">
+
+</div>
+
+<div class="field">
+
+<label>Email Address</label>
+
+<input type="email" placeholder="example@email.com">
+
+</div>
+
+<div class="field">
+
+<label>Personal Message</label>
+
+<textarea placeholder="Write a message..."></textarea>
+
+</div>
+
+<button class="purchase" type="submit">
+
+Continue to Payment →
+
+</button>
+
+</form>
+
+<p class="note">
+
+Online payment coming soon.
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+
+<a href="index.html" style="position:fixed;top:24px;left:24px;color:#d4af37;font-size:0.9rem;text-decoration:none;z-index:10;">&larr; Back to site</a>
+
+<script>
+let selectedAmount = "";
+document.querySelectorAll(".amounts button").forEach(btn => {
+  btn.addEventListener("click", () => {
+    document.querySelectorAll(".amounts button").forEach(b => b.style.background = "#181818");
+    btn.style.background = "#d4af37";
+    btn.style.color = "#111";
+    selectedAmount = btn.dataset.amount === "custom" ? "" : btn.textContent.trim();
+    if (btn.dataset.amount !== "custom") {
+      document.querySelector('input[type="number"]').value = "";
+    }
+  });
+});
+
+document.querySelector("form").addEventListener("submit", function(e){
+  e.preventDefault();
+  const to = document.getElementById('gcTo').value.trim();
+  const from = document.getElementById('gcFrom').value.trim();
+  const custom = document.querySelector('input[type="number"]').value.trim();
+  const amount = custom || selectedAmount || "an amount to be discussed";
+  const email = document.querySelector('input[type="email"]').value.trim();
+  const message = document.querySelector("textarea").value.trim();
+
+  const text = encodeURIComponent(
+    `Hi! I'd like to buy a gift voucher for ${amount}.\nTo: ${to || "—"}\nFrom: ${from || "—"}\nEmail: ${email || "—"}\n${message ? "Message: " + message : ""}`
+  );
+  window.open(`https://wa.me/35797900601?text=${text}`, "_blank", "noopener");
+});
+</script>
+<script src="js/i18n.js"></script>
+</body>
+</html>

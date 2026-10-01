@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Book your laser hair removal, massage, or nail appointment online at Nataly Laser House in Limassol.">
+    <title>Book Appointment | Nataly Laser House</title>
+
+    <link rel="icon" type="image/png" href="images/favicon.png">
+    <meta property="og:title" content="Book Appointment | Nataly Laser House">
+    <meta property="og:description" content="Book your appointment online at Nataly Laser House.">
+    <meta property="og:type" content="website">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/styles.css">
+
+<style>
+/* ===== Booking system — uses the site's existing CSS variables ===== */
+.book-section{ padding:150px 0 100px; }
+.book-tabs{ display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-bottom:50px; }
+.book-tab-btn{
+  background:transparent; border:1px solid var(--line); color:var(--ivory);
+  padding:11px 22px; border-radius:2px; cursor:pointer; font-family:'Jost',sans-serif;
+  font-size:.78rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; transition:.25s;
+}
+.book-tab-btn.active, .book-tab-btn:hover{ border-color:var(--gold); color:var(--gold); }
+.book-view{ display:none; }
+.book-view.active{ display:block; }
+.book-card{
+  background:var(--panel); border:1px solid var(--line); border-radius:6px;
+  padding:38px; margin:0 auto 24px; max-width:760px;
+}
+.book-card h2{ font-size:1.8rem; margin-bottom:6px; }
+.book-card .sub{ color:var(--muted); font-size:.9rem; margin-bottom:26px; }
+.book-label{ display:block; font-size:.72rem; letter-spacing:.1em; text-transform:uppercase; color:var(--gold); margin:16px 0 6px; font-weight:700; }
+.book-input, .book-select, .book-textarea{
+  width:100%; padding:13px 15px; background:#fff; border:1px solid var(--line);
+  color:var(--ivory); border-radius:2px; font-family:'Jost',sans-serif; font-size:.92rem; outline:none;
+}
+.book-input:focus, .book-select:focus, .book-textarea:focus{ border-color:var(--gold); }
+.book-textarea{ min-height:80px; resize:vertical; }
+.book-grid2{ display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+.book-btn{
+  display:inline-block; background:var(--gold); color:#fff; border:none; padding:14px 30px;
+  border-radius:2px; font-weight:700; cursor:pointer; font-family:'Jost',sans-serif;
+  font-size:.8rem; letter-spacing:.08em; text-transform:uppercase; margin-top:20px; transition:.25s;
+}
+.book-btn:hover{ background:var(--gold-soft); color:var(--black); transform:translateY(-2px); }
+.book-btn.secondary{ background:transparent; color:var(--gold); border:1px solid var(--gold); }
+.book-btn.small{ padding:8px 14px; font-size:.7rem; margin-top:0; }
+.book-btn.danger{ background:#c85a5a; }
+.book-btn.ok{ background:#3f9d6e; }
+.book-note{ color:var(--muted); font-size:.82rem; margin-top:10px; }
+.book-list-item{ background:#fff; border:1px solid var(--line); border-radius:4px; padding:18px 20px; margin-bottom:12px; }
+.book-list-item .row{ display:flex; justify-content:space-between; align-items:flex-start; gap:14px; flex-wrap:wrap; }
+.book-badge{ display:inline-block; padding:4px 12px; border-radius:20px; font-size:.68rem; font-weight:700; text-transform:uppercase; letter-spacing:.04em; }
+.book-badge.pending{ background:#ffe9c2; color:#8a5a00; }
+.book-badge.confirmed{ background:#cdf0da; color:#1c6b3f; }
+.book-badge.cancelled{ background:#f8d3d3; color:#a12f2f; }
+.book-badge.unread{ background:var(--gold); color:#fff; }
+.book-muted{ color:var(--muted); font-size:.85rem; }
+.book-actions{ display:flex; gap:8px; flex-wrap:wrap; }
+.book-locked{ text-align:center; padding:50px 20px; color:var(--muted); }
+.book-locked svg{ width:44px; height:44px; stroke:var(--gold); margin-bottom:14px; }
+.book-hidden{ display:none !important; }
+.book-error{ color:#a12f2f; font-size:.85rem; margin-top:10px; }
+.book-success{ color:#1c6b3f; font-size:.85rem; margin-top:10px; }
+.book-section-title{ display:flex; justify-content:space-between; align-items:center; margin-bottom:18px; flex-wrap:wrap; gap:10px; }
+.book-top-right{ display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap; }
+.book-who{ font-size:.85rem; color:var(--muted); }
+.book-logout{ color:var(--gold); cursor:pointer; font-size:.85rem; text-decoration:underline; font-weight:600; }
+@media(max-width:700px){ .book-grid2{ grid-template-columns:1fr; } }
+
+.quick-book-bar{ max-width:760px; margin:0 auto 50px; text-align:center; }
+.quick-book-label{ font-size:.85rem; color:var(--muted); margin-bottom:20px; }
+.quick-book-grid{ display:flex; justify-content:center; gap:16px; flex-wrap:wrap; }
+.quick-book-item{
+  display:flex; flex-direction:column; align-items:center; gap:8px;
+  background:var(--panel); border:1px solid var(--line); border-radius:8px;
+  padding:16px 20px; min-width:92px; transition:.25s;
+}
+.quick-book-item:hover{ border-color:var(--gold); transform:translateY(-3px); box-shadow:0 10px 24px rgba(244,95,209,0.18); }
+.quick-book-item img{ width:28px; height:28px; }
+.quick-book-emoji{ font-size:1.5rem; line-height:1; }
+.quick-book-item span:last-child{ font-size:.72rem; font-weight:700; letter-spacing:.04em; text-transform:uppercase; color:var(--ivory); }
+.quick-book-note{ font-size:.78rem; color:var(--muted); margin-top:18px; max-width:52ch; margin-left:auto; margin-right:auto; }
+@media(max-width:600px){ .quick-book-item{ min-width:80px; padding:14px 14px; } }
+
+.medical-form-inner{
+  background:#fff7fb; border:1px solid var(--gold); border-radius:6px; padding:24px 26px; margin:18px 0 6px;
+}
+.medical-form-inner h3{ font-size:1.15rem; margin-bottom:8px; color:var(--gold); }
+.medical-intro{ color:var(--muted); font-size:.85rem; margin-bottom:16px; }
+.medical-checks{ display:grid; grid-template-columns:1fr 1fr; gap:10px 20px; margin-bottom:14px; }
+.medical-check{ display:flex; align-items:flex-start; gap:8px; font-size:.85rem; color:var(--ivory); cursor:pointer; }
+.medical-check input{ margin-top:3px; accent-color:var(--gold); }
+.medical-confirm{ display:flex; align-items:flex-start; gap:8px; font-size:.85rem; margin-top:16px; font-weight:600; cursor:pointer; }
+.medical-confirm input{ margin-top:3px; accent-color:var(--gold); }
+.medical-required-mark{ color:#a12f2f; }
+@media(max-width:600px){ .medical-checks{ grid-template-columns:1fr; } }
+</style>
+</head>
+
+<body>
+
+<header>
+    <nav class="wrap">
+
+        <a href="index.html" class="brand">
+            <img src="images/logo.png" alt="Nataly Laser House">
+        </a>
+
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="services.html">Services</a>
+            <a href="prices.html">Prices</a>
+            <a href="nails.html">Nails</a>
+            <a href="gallery.html">Gallery</a>
+            <a href="contact.html">Contact</a>
+        </div>
+
+<div class="nav-cta-group">
+  <a href="tel:+35797900601" class="nav-phone">
+    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.3 1.8.6 2.6a2 2 0 0 1-.5 2.1L8 9.6a16 16 0 0 0 6 6l1.2-1.2a2 2 0 0 1 2.1-.5c.8.3 1.7.5 2.6.6a2 2 0 0 1 1.7 2z"/></svg>
+    97 900 601
+  </a>
+  <a href="book.html" class="nav-cta active">Book Now</a>
+</div>
+        <button class="menu-toggle">&#9776;</button>
+
+    </nav>
+</header>
+
+<main>
+
+<section class="book-section">
+  <div class="wrap">
+
+    <div class="section-head reveal">
+        <span class="eyebrow">Book Online</span>
+        <h2>Book Your Appointment</h2>
+        <div class="gold-rule"><svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M12 21s-8-5.3-8-11.5C4 6 6.5 4 9 4c1.5 0 2.5.8 3 1.6C12.5 4.8 13.5 4 15 4c2.5 0 5 2 5 5.5C20 15.7 12 21 12 21z"/></svg></div>
+    </div>
+
+    <div class="quick-book-bar reveal">
+      <p class="quick-book-label">Prefer to message us instead? Book through any of these:</p>
+      <div class="quick-book-grid">
+        <a href="https://wa.me/35797900601?text=Hi%20Nataly%20Laser%20House%2C%20I%27d%20like%20to%20book%20an%20appointment." target="_blank" rel="noopener" class="quick-book-item">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
+          <span>WhatsApp</span>
+        </a>
+        <a href="https://instagram.com/natalylaserhouse" target="_blank" rel="noopener" class="quick-book-item">
+          <img src="https://img.icons8.com/color/48/instagram-new--v1.png" alt="Instagram">
+          <span>Instagram</span>
+        </a>
+        <a href="https://m.me/natalylaserhouse" target="_blank" rel="noopener" class="quick-book-item">
+          <img src="https://img.icons8.com/color/48/facebook-messenger--v2.png" alt="Messenger">
+          <span>Messenger</span>
+        </a>
+        <a href="sms:+35797900601?body=Hi%20Nataly%20Laser%20House%2C%20I%27d%20like%20to%20book%20an%20appointment." class="quick-book-item">
+          <span class="quick-book-emoji">&#128172;</span>
+          <span>SMS</span>
+        </a>
+        <a href="https://www.tiktok.com/@natalylaserhouse" target="_blank" rel="noopener" class="quick-book-item">
+          <img src="https://img.icons8.com/color/48/tiktok--v1.png" alt="TikTok">
+          <span>TikTok</span>
+        </a>
+      </div>
+      <p class="quick-book-note">No phone number for WhatsApp or SMS? Use Instagram, Messenger, or TikTok instead — all of them work without one.</p>
+    </div>
+
+    <!-- CLIENT BOOKING -->
+    <div class="book-view active" id="view-book">
+      <div class="book-card">
+        <h2>Request an Appointment</h2>
+        <p class="sub">Fill in your details and we'll confirm your appointment as soon as possible.</p>
+        <form id="bookForm">
+          <span class="book-label">Your name</span>
+          <input class="book-input" type="text" id="bkName" required>
+          <span class="book-label">Phone number (optional if you fill in another contact below)</span>
+          <input class="book-input" type="tel" id="bkPhone">
+          <span class="book-label">No phone number? Tell us where to reach you</span>
+          <input class="book-input" type="text" id="bkAltContact" placeholder="e.g. Instagram @yourhandle, Facebook name, TikTok @yourhandle...">
+          <div id="bkContactMsg"></div>
+          <div id="depositWarning"></div>
+          <div class="book-grid2">
+            <div><span class="book-label">Service</span>
+              <select class="book-select" id="bkService" required></select>
+            </div>
+            <div><span class="book-label">Preferred staff (optional)</span>
+              <select class="book-select" id="bkStaff"><option value="">No preference</option></select>
+            </div>
+          </div>
+          <div class="book-grid2">
+            <div><span class="book-label">Date</span><input class="book-input" type="date" id="bkDate" required></div>
+            <div><span class="book-label">Time</span><input class="book-input" type="time" id="bkTime" required></div>
+          </div>
+          <div id="medicalFormWrap" class="medical-form book-hidden">
+            <div class="medical-form-inner">
+              <h3>Health &amp; Safety Screening</h3>
+              <p class="medical-intro">This treatment requires a quick health check before booking. Please tick anything that applies to you — this helps us keep your session safe.</p>
+
+              <div class="medical-checks">
+                <label class="medical-check"><input type="checkbox" class="med-cond" value="Pregnant / trying to conceive"> Pregnant or trying to conceive</label>
+                <label class="medical-check"><input type="checkbox" class="med-cond" value="Heart condition / pacemaker"> Heart condition or pacemaker</label>
+                <label class="medical-check"><input type="checkbox" class="med-cond" value="Blood clotting disorder / blood thinners"> Blood clotting disorder or on blood thinners</label>
+                <label class="medical-check"><input type="checkbox" class="med-cond" value="Recent surgery (last 6 months)"> Recent surgery (last 6 months)</label>
+                <label class="medical-check"><input type="checkbox" class="med-cond" value="Skin condition / open wounds in the treatment area"> Skin condition or open wounds in the treatment area</label>
+                <label class="medical-check"><input type="checkbox" class="med-cond" value="Cancer (current or recent treatment)"> Cancer (current or recent treatment)</label>
+                <label class="medical-check"><input type="checkbox" class="med-cond" value="Epilepsy"> Epilepsy</label>
+                <label class="medical-check"><input type="checkbox" class="med-cond" value="Diabetes"> Diabetes</label>
+                <label class="medical-check"><input type="checkbox" class="med-cond" value="Allergies"> Allergies (please detail below)</label>
+              </div>
+
+              <span class="book-label">Other / anything else we should know (optional)</span>
+              <textarea class="book-textarea" id="bkMedicalOther" placeholder="Add any details about the above, or anything else relevant..."></textarea>
+
+              <label class="medical-confirm">
+                <input type="checkbox" id="bkMedicalConfirm">
+                I confirm the information above is accurate and complete to the best of my knowledge. <span class="medical-required-mark">*</span>
+              </label>
+              <div id="medicalErr" class="book-error"></div>
+            </div>
+          </div>
+
+          <span class="book-label">Notes (optional)</span>
+          <textarea class="book-textarea" id="bkNotes" placeholder="Anything we should know?"></textarea>
+          <button class="book-btn" type="submit">Request Appointment</button>
+          <div id="bkMsg"></div>
+        </form>
+      </div>
+    </div>
+
+</section>
+
+</main>
+
+<section class="policy-note">
+  <div class="wrap">
+    <div class="policy-box reveal">
+      <h3>Booking &amp; Cancellation Policy</h3>
+      <p>Please give us at least 24 hours' notice if you need to cancel or reschedule.</p>
+      <p>After 3 late cancellations or no-shows, a €10 deposit will be required to confirm future bookings.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+    <div class="wrap">
+        <div class="footer-row">
+            <div class="footer-brand">
+                <img src="images/logo.png" alt="Logo">
+            </div>
+            <div class="footer-links">
+                <a href="index.html">Home</a>
+                <a href="about.html">About</a>
+                <a href="services.html">Services</a>
+                <a href="prices.html">Prices</a>
+                <a href="nails.html">Nails</a>
+                <a href="gallery.html">Gallery</a>
+                <a href="contact.html">Contact</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            © 2026 Nataly Laser House. All Rights Reserved.
+        </div>
+    </div>
+</footer>
+
+<a href="https://wa.me/35797900601" target="_blank" rel="noopener" class="whatsapp-float" title="Chat on WhatsApp">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" width="28">
+</a>
+
+<script src="js/script.js"></script>
+
+<script>
+/* ============================================================
+   Real backend version — replaces the previous window.storage
+   prototype. Same field IDs and CSS classes as before, so the
+   look is identical; this just makes it actually submit to
+   book_submit.php / api_services.php / api_employees.php / api_slots.php.
+   ============================================================ */
+
+const svcSelect = document.getElementById('bkService');
+const staffSelect = document.getElementById('bkStaff');
+const dateInput = document.getElementById('bkDate');
+const timeInput = document.getElementById('bkTime');
+
+let servicesData = [];
+
+async function loadServices(){
+  const res = await fetch('nlh-backend/api_services.php');
+  servicesData = await res.json();
+  svcSelect.innerHTML = servicesData.map(s =>
+    `<option value="${s.id}" data-category="${s.category}" data-medical="${s.requires_medical}">${s.name}</option>`
+  ).join('');
+  await loadEmployeesForSelected();
+  toggleMedicalForm();
+}
+
+async function loadEmployeesForSelected(){
+  const opt = svcSelect.selectedOptions[0];
+  if(!opt) return;
+  const res = await fetch('nlh-backend/api_employees.php?category=' + encodeURIComponent(opt.dataset.category));
+  const employees = await res.json();
+  staffSelect.innerHTML = '<option value="">No preference</option>' +
+    employees.map(e => `<option value="${e.id}">${e.name}</option>`).join('');
+}
+
+function toggleMedicalForm(){
+  const opt = svcSelect.selectedOptions[0];
+  const wrap = document.getElementById('medicalFormWrap');
+  const confirmBox = document.getElementById('bkMedicalConfirm');
+  const needed = opt && opt.dataset.medical === '1';
+  wrap.classList.toggle('book-hidden', !needed);
+  confirmBox.required = needed;
+  if(!needed) document.getElementById('medicalErr').textContent = '';
+}
+
+svcSelect.addEventListener('change', async () => {
+  await loadEmployeesForSelected();
+  toggleMedicalForm();
+});
+
+async function loadTimes(){
+  const employeeId = staffSelect.value;
+  const date = dateInput.value;
+  if(!date){ timeInput.value = ''; return; }
+  // If no preferred staff, just leave the native time input free-form —
+  // real slot-availability checking happens against whichever employee
+  // ends up assigned in book_submit.php.
+  if(!employeeId) return;
+  const params = new URLSearchParams({ employee_id: employeeId, date });
+  const res = await fetch('nlh-backend/api_slots.php?' + params.toString());
+  const slots = await res.json();
+  if(slots.length && timeInput.value && !slots.includes(timeInput.value)){
+    document.getElementById('bkMsg').innerHTML =
+      `<p class="book-error">That staff member isn't free at ${timeInput.value} on ${date}. Available times that day: ${slots.join(', ')}</p>`;
+  }
+}
+staffSelect.addEventListener('change', loadTimes);
+dateInput.addEventListener('change', loadTimes);
+
+loadServices();
+
+/* ============ CLIENT BOOKING SUBMIT ============ */
+document.getElementById('bookForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const bkMsg = document.getElementById('bkMsg');
+  const contactMsg = document.getElementById('bkContactMsg');
+  bkMsg.innerHTML = '';
+  contactMsg.innerHTML = '';
+
+  const phone = document.getElementById('bkPhone').value.trim();
+  const altContact = document.getElementById('bkAltContact').value.trim();
+
+  if(!phone && !altContact){
+    contactMsg.innerHTML = '<p class="book-error">Please add a phone number or another way to reach you (Instagram, Facebook, TikTok, etc.) so we can confirm your booking.</p>';
+    return;
+  }
+
+  const opt = svcSelect.selectedOptions[0];
+  const needsMedical = opt && opt.dataset.medical === '1';
+  const medicalErr = document.getElementById('medicalErr');
+
+  if(needsMedical && !document.getElementById('bkMedicalConfirm').checked){
+    medicalErr.textContent = 'Please complete and confirm the health screening above before booking this treatment.';
+    document.getElementById('medicalFormWrap').scrollIntoView({behavior:'smooth', block:'center'});
+    return;
+  }
+  medicalErr.textContent = '';
+
+  const medicalConditions = Array.from(document.querySelectorAll('.med-cond:checked')).map(el => el.value);
+
+  // No preferred staff chosen? Fall back to the first available person for that category
+  // rather than leaving the field empty — the database needs a specific employee_id.
+  let employeeId = staffSelect.value;
+  if(!employeeId){
+    const res = await fetch('nlh-backend/api_employees.php?category=' + encodeURIComponent(opt.dataset.category));
+    const employees = await res.json();
+    if(employees.length) employeeId = employees[0].id;
+  }
+  if(!employeeId){
+    bkMsg.innerHTML = '<p class="book-error">No staff member is currently set up for this treatment — please contact us directly.</p>';
+    return;
+  }
+
+  const payload = {
+    service_id: opt.value,
+    employee_id: employeeId,
+    date: dateInput.value,
+    time: timeInput.value,
+    full_name: document.getElementById('bkName').value.trim(),
+    phone: phone || altContact, // book_submit.php uses this as the unique client-lookup key
+    channel: phone ? 'phone' : 'other',
+    handle: altContact,
+    concern: document.getElementById('bkNotes').value.trim(),
+    medical_conditions: medicalConditions,
+    medical_other: document.getElementById('bkMedicalOther').value.trim(),
+    medical_confirmed: needsMedical ? document.getElementById('bkMedicalConfirm').checked : false,
+  };
+
+  try {
+    const res = await fetch('nlh-backend/book_submit.php', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    const data = await res.json();
+    bkMsg.innerHTML = data.ok
+      ? `<p class="book-success">${data.message}</p>`
+      : `<p class="book-error">${data.message}</p>`;
+    if(data.ok){
+      document.getElementById('bookForm').reset();
+      loadServices();
+    }
+  } catch(err){
+    bkMsg.innerHTML = '<p class="book-error">Something went wrong sending your request — please WhatsApp us instead.</p>';
+  }
+});
+
+document.getElementById('date') && (dateInput.min = new Date().toISOString().split('T')[0]);
+</script>
+
+</body>
+</html>
